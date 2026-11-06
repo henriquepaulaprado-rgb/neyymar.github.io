@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador de Carreira no Futebol com Estatísticas</title>
+    <style>
+        :root {
+            --primary: #1e3c72;
+            --secondary: #2a5298;
+            --accent: #27ae60;
+            --bg: #f4f7f6;
+            --card: #ffffff;
+            --text: #333333;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+        }
+
+        header {
+            text-align: center;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 25px;
+        }
+
+        h1 { margin: 0 0 10px 0; font-size: 2.2rem; }
+        p.subtitle { margin: 0 0 20px 0; opacity: 0.9; font-size: 1.1rem; }
+
+        /* Painel de Estatísticas da Carreira */
+        .career-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            backdrop-filter: blur(5px);
+        }
+
+        .stat-box {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 1.8rem;
+            font-weight: bold;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 600px) {
+            .career-stats { grid-template-columns: 1fr; }
+        }
+
+        .club-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .fla { background-color: #c3281e; }
+        .pal { background-color: #006437; }
+        .ath { background-color: #000000; border: 1px solid #c3281e; }
+        .rma { background-color: #eeaf00; color: #111; }
+        .bar { background-color: #a50044; }
+        .bet { background-color: #00874e; }
+        .liv { background-color: #c8102e; }
+        .che { background-color: #034694; }
+        .vas { background-color: #000000; }
+        .mci { background-color: #6cabdd; color: #111; }
+
+        .card {
+            background: var(--card);
+            border-radius: 10px;
+            padding: 20px 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            border-left: 5px solid var(--secondary);
+            transition: transform 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+        }
+
+        .question-number {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #777;
+            margin-bottom: 5px;
+        }
+
+        .scenario {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #1a1a1a;
+        }
+
+        .options {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+
+        @media (min-width: 600px) {
+            .options { grid-template-columns: 1fr 1fr; }
+        }
+
+        .btn {
+            background-color: #f0f3f8;
+            border: 1px solid #dcdfe6;
+            padding: 12px 15px;
+            border-radius: 6px;
+            text-align: left;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+        }
+
+        .btn:hover {
+            background-color: var(--secondary);
+            color: white;
+            border-color: var(--secondary);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>🎮 Simulador de Carreira: Modo Jogador</h1>
+        <p class="subtitle">60 Tomadas de Decisão e Lances Históricos</p>
+        
+        <!-- Painel de Estatísticas Simuladas da Carreira -->
+        <div class="career-stats">
+            <div class="stat-box">
+                <span class="stat-number">342</span>
+                <span class="stat-label">Gols na Carreira</span>
+            </div>
+            <div class="stat-box">
+                <span class="stat-number">185</span>
+                <span class="stat-label">Assistências</span>
+            </div>
+            <div class="stat-box">
+                <span class="stat-number">24</span>
+                <span class="stat-label">Títulos Conquistados</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- FLAMENGO (1 a 6) -->
+    <div class="card">
+        <span class="club-badge fla">Flamengo</span>
+        <div class="question-number">LANCE 01 | Peneira no Ninho do Urubu</div>
+        <div class="scenario">Você está nos minutos finais do teste na base. O placar está 0x0 e você recebe a bola no meio-campo. O treinador grita pedindo organização.</div>
+        <div class="options">
+            <button class="btn">A) Tenta um chute do meio-campo para impressionar.</button>
+            <button class="btn">B) Toca curto e pede a bola de volta criando espaço.</button>
+            <button class="btn">C) Parte para o x1 contra o zagueiro mais forte.</button>
+            <button class="btn">D) Prende a bola perto da bandeira de escanteio.</button>
+        </div>
+    </div>
+
+    <div class="card">
+        <span class="club-badge fla">Flamengo</span>
+        <div class="question-number">LANCE 02 | Estreia no Maracanã</div>
+        <div class="scenario">Entrando aos 35' do 2º tempo sob vaias da torcida adversária. Escanteio a favor. Você se posiciona:</div>
+        <div class="options">
+            <button class="btn">A) Na primeira trave para desviar de cabeça.</button>
+            <button class="btn">B) Fora da área para pegar a sobra do rebote.</button>
+            <button class="btn">C) Empurrando o zagueiro na marca do pênalti.</button>
+            <button class="btn">D) Perto do cobrador para pedir passe curto.</button>
+        </div>
+    </div>
+
+    <div class="card">
+        <span class="club-badge fla">Flamengo</span>
+        <div class="question-number">LANCE 03 | Contra-ataque no Fla-Flu</div>
+        <div class="scenario">3x2 para o rival, 48' do 2º tempo. Você recupera a bola na sua área e tem dois companheiros correndo.</div>
+        <div class="options">
+            <button class="btn">A) Lança em profundidade para o ponta veloz.</button>
+            <button class="btn">B) Carrega a bola até sofrer falta no meio-campo.</button>
+            <button class="btn">C) Tenta driblar dois marcadores dentro da área.</button>
+            <button class="btn">D) Chuta direto para o gol adversário.</button>
+        </div>
+    </div>
+
+    <div class="card">
+        <span class="club-badge fla">Flamengo</span>
+        <div class="question-number">LANCE 04 | Pênalti na Libertadores</div>
+        <div class="scenario">Decisão por pênaltis na fase mata-mata no Maracanã lotado. Você é o 5º cobrador.</div>
+        <div class="options">
+            <button class="btn">A) Chuta forte no alto do canto esquerdo.</button>
+            <button class="btn">B) Tenta uma cavadinha no meio do gol.</button>
+            <button class="btn">C) Dá uma paradinha antes de bater rasteiro.</button>
+            <button class="btn">D) Bate de chapa no canto que o goleiro escolher.</button>
+        </div>
+    </div>
+
+    <div class="card">
+        <span class="club-badge fla">Flamengo</span>
+        <div class="question-number">LANCE 05 | Coletiva de Imprensa pós-derrota</div>
+        <div class="scenario">Você falhou no gol decisivo do rival. O repórter pergunta de quem foi a culpa.</div>
+        <div class="options">
+            <button class="btn">A) Assume a responsabilidade individual publicamente.</button>
+            <button class="btn">B) Critica o esquema tático do treinador.</button>
+            <button class="btn">C) Diz que o gramado atrapalhou a jogada.</button>
+            <button class="btn">D) Abandona a entrevista sem responder.</button>
+        </div>
+    </div>
+
+    <div class="card">
+        <span class="club-badge fla">Flamengo</span>
+        <div class="question-number">LANCE 06 | Renovação de Contrato</div>
+        <div class="scenario">O clube oferece contrato longo com salário médio, mas há sondagem da Europa.</div>
+        <div class="options">
+            <button class="btn">A) Renova imediatamente para ganhar títulos no Fla.</button>
+            <button class="btn">B) Força a saída recusando os treinos.</button>
+            <button class="btn">C) Aceita renovar colocando multa baixa para Europa.</button>
+            <button class="btn">D) Espera o contrato acabar para sair de graça.</button>
+        </div>
+    </div>
+
+    <!-- PALMEIRAS (7 a 12) -->
+    <div class="card">
+        <span class="club-badge pal">Palmeiras</span>
+        <div class="question-number">LANCE 07 | Estreia no Allianz Parque</div>
+        <div class="scenario">Jogo pegado contra rival direto. O técnico pede intensidade máxima na marcação sob pressão.</div>
+        <div class="options">
+            <button class="btn">A) Dá um carrinho perigoso nos primeiros 5 minutos.</button>
+            <button class="btn">B) Pressiona a saída de bola sem fazer faltas.</button>
+            <button class="btn">C) Guarda posição na linha defensiva sem subir.</button>
+            <button class="btn">D) Toca de lado sem arriscar passes verticais.</button>
+        </div>
+    </div>
+
+    <div class="card">
+        <span class="club-badge pal">Palmeiras</span>
+        <div class="question-number">LANCE 08 | Derby Paulista</div>
+        <div class="scenario">Placar 1x1, 88 minutos. Você recebe a bola na entrada da área com a perna ruim (não dominante).</div>
+        <div class="options">
+            <button class="btn">A) Arrisca o chute de primeira mesmo com a perna ruim.</button>
+            <button class="btn">B) Tenta ajeitar para a perna boa e perde tempo.</button>
+            <button class="btn">C) Rola para o lateral que vem ultrapassando.</button>
+            <button class="btn">D) Simula uma falta na entrada da grande área.</button>
+        </div>
+    </div>
+
+    <div class="card">
+        <span class="club-badge pal">Palmeiras</span>
+        <div class="question-number">LANCE 09 | Cruzamento na Área</div>
+        <div class="scenario">O ponta cruza a bola à meia-altura entre o zagueiro e o goleiro adversário.</div>
+        <div class="options">
+            <button class="btn">A) Mergulha de peixinho para finalizar.</button>
+            <button class="btn">B) Tenta dominar no peito para chutar em seguida.</button>
+            <button class="btn">C) Deixa a bola passar para o companheiro atrás.</button>
+            <button class="btn">D) Tenta finalizar de calcanhar.</button>
+        </div>
+    </div>
+
+    <div class="card">
+        <span class="club-badge pal">Palmeiras</span>
+        <div class="question-number">LANCE 10 | Discussão Tática</div>
+        <div class="scenario">No intervalo, o técnico pede para você mudar de posição e recompor como volante.</div>
+        <div class="options">
+            <button class="btn">A) Aceita a função pelo bem tático da equipe.</button>
+            <button class="btn">B) Reclama dizendo que rende apenas como atacante.</button>
+            <button class="btn">C) Concorda na reunião, mas ignora em campo.</button>
+            <button class="btn">D) Pede para ser substituído no intervalo.</button>
+        </div>
+    </div>
+
+    <div class="card">
+        <span class="club-badge pal">Palmeiras</span>
+        <div class="question-number">LANCE 11 | Contra-Ataque Letal</div>
+        <div class="scenario">Três contra um no ataque. Você está com a bola no meio.</div>
+        <div class="options">
+            <button class="btn">A) Toca na esquerda para o ponta livre.</button>
+            <button class="btn">B) Finaliza direto da intermediária.</button>
+            <button class="btn">C) Tenta driblar o único zagueiro restante.</button>
+            <button class="btn">D) Espera a aproximação da marcação para dar cavadinha.</button>
+        </div>
+    </div>
+
+    <div class="card">
+        <span class="club-badge pal">Palmeiras</span>
+        <div class="question-number">LANCE 12 | Final da Libertadores</div>
+        <div class="scenario">Prorrogação, 118 minutos. Falta perto da bandeira de escanteio a favor do Palmeiras.</div>
+        <div class="options">
+            <button class="btn">A) Cruza forte no segundo pau buscando a cabeça do zagueiro.</button>
+            <button class="btn">B) Toca curto e segura a bola na bandeira de escanteio.</button>
+            <button class="btn">C) Chuta direto no gol tentando surpreender.</button>
+            <button class="btn">D) Cruza rasteiro no meio da área.</button>
+        </div>
+    </div>
+
+    <!-- ATHLETICO PARANAENSE (13 a 18) -->
+    <div class="card">
+        <span class="club-badge ath">Athletico Paranaense</span>
+        <div class="question-number">LANCE 13 | Adaptação ao Gramado Sintético</div>
+        <div class="scenario">Primeiro jogo na Ligga Arena. A bola quica mais rápido que o normal na sua direção.</div>
+        <div class="options">
+            <button class="btn">A) Tenta dominar de primeira com a sola da chuteira.</button>
+            <button class="btn">B) Deixa a bola quicar antes de tentar controlar.</button>
+            <button class="btn">C) Rebate de primeira sem dominar.</button>
+            <button class="btn">D) Protege a bola com o corpo antes do domínio.</button>
+        </div>
+    </div>
+
+    <div class="card">
+        <span class="club-badge ath">Athletico Paranaense</span>
+        <div class="question-number">LANCE 14 | Clássico Atletiba</div>
+        <div class="scenario">Jogo tenso com muitas faltas no Couto Pereira. O adversário tenta te provocar após um lance duro.</div>
+        <div class="options">
+            <button class="btn">A) Enfrenta o rival cabeça com cabeça.</button>
+            <button class="btn">B) Ignora a provocação e foca na bola parada.</button>
+            <button class="btn">C) Cai no chão simulando ter sido atingido no rosto.</button>
+            <button class="btn">D) Aplaudir ironicamente a atitude do adversário.</button>
+        </div>
+    </div>
+
+    <div class="card">
+        <span class="club-badge ath">Athletico Paranaense</span>
+        <div class="question-number">LANCE 15 | Transição Rápida</div>
+        <div class="scenario">O Furacão rouba a bola na defesa e você tem campo aberto pela ponta direita.</div>
+        <div class="options">
+            <button class="btn">A) Arranca em velocidade máxima até a linha de fundo.</button>
+            <button class="btn">B) Corta para o meio e tenta um passe em diagonal.</button>
+            <button class="btn">C) Cadencia o jogo esperando o time subir.</button>
+            <button class="btn">D) Tenta chutar do meio da rua.</button>
+        </div>
+    </div>
+
+    <div class="card">
+        <span class="club-badge ath">Athletico Paranaense</span>
+        <div class="question-number">LANCE 16 | Final da Copa do Brasil</div>
+        <div class="scenario">Jogo de volta fora de casa. Você precisa segurar a vantagem de um gol nos acréscimos.</div>
+        <div class="options">
+            <button class="btn">A) Chuta a bola para longe em direção à arquibancada.</button>
+            <button class="btn">B) Tenta fazer gol de placa em jogada individual.</button>
+            <button class="btn">C) Mantém a posse trocando passes na zaga.</button>
+            <button class="btn">D) Comete uma falta tática no meio-campo.</button>
+        </div>
+    </div>
+
+    <div class="card">
+        <span class="club-badge ath">Athletico Paranaense</span>
+        <div class="question-number">LANCE 17 | Cobrança de Falta Direta</div>
+        <div class="scenario">Falta a 22 metros do gol, um pouco desalinhada para a esquerda.</div>
+        <div class="options">
+            <button class="btn">A) Chuta por cima da barreira buscando o ângulo.</button>
+            <button class="btn">B) Solta a bomba no canto do goleiro.</button>
+            <button class="btn">C) Bate rasteiro por baixo da barreira se ela pular.</button>
+            <button class="btn">D) Rola para o companheiro dar o chute de longe.</button>
+        </div>
+    </div>
+
+    <div class="card">
+        <span class="club-badge ath">Athletico Paranaense</span>
+        <div class="question-number">LANCE 18 | Proposta de Venda</div>
+        <div class="scenario">Um clube europeu faz uma oferta substancial para comprar seu passe.</div>
+        <div class="options">
+            <button class="btn">A) Aceita a transferência para realizar o sonho europeu.</button>
+            <button class="btn">B) Recusa para se tornar ídolo supremo no Athletico.</button>
+            <button class="btn">C) Pede um aumento salarial alto para permanecer.</button>
+            <button class="btn">D) Deixa a decisão 100% nas mãos da diretoria.</button>
+        </div>
+    </div>
+
+    <!-- REAL MADRID (19 a 24) -->
+    <div class="card">
+        <span class="club-badge rma">Real Madrid</span>
+        <div class="question-number">LANCE 19 | Estreia no Santiago Bernabéu</div>
+        <div class="scenario">Você faz seu primeiro jogo com a camisa 9 merengue sob os olhares da imprensa mundial.</div>
+        <div class="options">
+            <button class="btn">A) Joga de forma simples para não cometer erros visíveis.</button>
+            <button class="btn">B) Tenta dribles ousados para encantar a torcida.</button>
+            <button class="btn">C) Foca em dar assistências para as estrelas do time.</button>
+            <button class="btn">D) Corre pressionando o tempo todo para mostrar raça.</button>
+        </div>
+    </div>
+
+    <div class="card">
+        <span class="club-badge rma">Real Madrid</span>
+        <div class="question-number">LANCE 20 | El Clásico no Camp Nou</div>
+        <div class="scenario">Bola sobra dentro da área rival com o jogo empatado em 0x0 no fim do primeiro tempo.</div>
+        <div class="options">
+            <button class="btn">A) Chuta de primeira sem dominar no canto baixo.</button>
+            <button class="btn">B) Domina com calma para escolher o canto.</button>
+            <button class="btn">C) Tenta driblar o goleiro antes de finalizar.</button>
+            <button class="btn">D) Cruza para trás buscando a chegada do meia.</button>
+        </div>
+    </div>
+
+    <div class="card">
+        <span class="club-badge rma">Real Madrid</span>
+        <div class="question-number">LANCE 21 | Virada na Champions League</div>
+        <div class="scenario">90+2 min na semifinal da Champions. O Real precisa de um gol para levar para a prorrogação.</div>
+        <div class="options">
+            <button class="btn">A) Se atira na área buscando um desvio de cabeça.</button>
+            <button class="btn">B) Fica fora da grande área esperando um rebate.</button>
+            <button class="btn">C) Cobra o escanteio rápido de forma curta.</button>
+            <button class="btn">D) Tenta cavar um pênalti na disputa corporal.</button>
+        </div>
+    </div>
+
+    <div class="card">
+        <span class="club-badge rma">Real Madrid</span>
+        <div class="question-number">LANCE 22 | Gerenciamento de Vestiário</div>
+        <div class="scenario">Um colega astro não te passa a bola em uma jogada em que você estava livre de marcação.</div>
+        <div class="options">
+            <button class="btn">A) Reclama efus
